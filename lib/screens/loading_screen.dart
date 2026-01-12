@@ -38,13 +38,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Future<void> getLocation() async {
     bool hasPermission = await checkPermission();
     if (!hasPermission) return;
-    Position position = await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings(
-        accuracy: LocationAccuracy.low,
-        distanceFilter: 0,
-      ),
-    );
-    print(position);
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        locationSettings: LocationSettings(
+          accuracy: LocationAccuracy.low,
+          distanceFilter: 0,
+        ),
+      );
+      print(position);
+    } catch (e) {
+      print('The error is $e');
+    }
   }
 
   @override
