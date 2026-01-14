@@ -51,7 +51,7 @@ flutter_*.png
 generated_plugin_registrant.dart
 
 # Environment-specific files
-.env
+*.env
 .env.*
 key.properties        # Android signing keys (if used)
 *.keystore
