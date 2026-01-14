@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:clima/services/location.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:clima/services/networking.dart';
+import 'location_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -30,6 +31,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
 
     var weatherData = await networkHelper.getData();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LocationScreen()),
+    );
     print(weatherData);
   }
 
