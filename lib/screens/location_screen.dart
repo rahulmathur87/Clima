@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
+import 'package:clima/services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
+  LocationScreen({this.locationWeather});
+  final dynamic locationWeather;
   @override
   _LocationScreenState createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  WeatherModel weather = WeatherModel();
+  late int temperature;
+  late int condition;
+  late String weatherIcon;
+  late String weatherMessage;
+  late String cityName;
+  @override
+  void initState() {
+    super.initState();
+    updateUI(widget.locationWeather);
+  }
+
+  void updateUI(dynamic weatherData) {
+    var temp = weatherData['main']['temp'];
+    temperature = temp.toInt();
+    condition = weatherData['weather'][0]['id'];
+    weatherIcon = weather.getWeatherIcon(condition);
+    weatherMessage = weather.getMessage(temperature);
+    cityName = weatherData['name'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +56,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 children: <Widget>[
                   TextButton(
                     onPressed: () {},
-                    child: Icon(
-                      Icons.near_me,
-                      size: 50.0,
-                      color: Colors.black,
-                    ),
+                    child: Icon(Icons.near_me, size: 50.0, color: Colors.black),
                   ),
                   TextButton(
                     onPressed: () {},
@@ -52,21 +72,15 @@ class _LocationScreenState extends State<LocationScreen> {
                 padding: EdgeInsets.only(left: 15.0),
                 child: Row(
                   children: <Widget>[
-                    Text(
-                      '32°',
-                      style: kTempTextStyle,
-                    ),
-                    Text(
-                      '☀️',
-                      style: kConditionTextStyle,
-                    ),
+                    Text('$temperature°', style: kTempTextStyle),
+                    Text(weatherIcon, style: kConditionTextStyle),
                   ],
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  '$weatherMessage in $cityName!',
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
